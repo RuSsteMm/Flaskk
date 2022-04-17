@@ -28,5 +28,10 @@ def kat_1():
     return render_template('katalog/gameplay.html')
 
 
+@app.route('/katalog/rejim')
+def kat_2():
+    return render_template('katalog/rejim.html')
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
