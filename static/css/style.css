@@ -6,12 +6,12 @@ body {
 }
 .p1 {
 	margin-left: 5%;
-	max-width: 1800px
+	margin-right: 5%
 }
 #pic {
-    	float: left
+    float: left
    }
 .text {
-    	margin-left: 500px;
-	max-width: 1300px
+    margin-left: 350px;
+	margin-right: 5%
 }

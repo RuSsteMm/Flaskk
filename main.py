@@ -33,5 +33,15 @@ def kat_2():
     return render_template('katalog/rejim.html')
 
 
+@app.route('/katalog/lavels')
+def kat_3():
+    return render_template('katalog/lavels.html')
+
+
+@app.route('/katalog/secrets')
+def kat_4():
+    return render_template('katalog/secrets.html')
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
