@@ -1,12 +1,16 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, render_template, request
 import requests
+from telehelp import send_telegram
+from testik import putb
+from random import choice
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-t_data = ['0', '0', '0']
 
 
-@app.route('/menu')
+@app.route('/')
 def login():
     data = [
         'Онлайн энциклопедия по игре Geometry Dash',
@@ -37,8 +41,10 @@ def kat():
 
 
 @app.route('/gallereya')
-def gal():
-    return render_template('gallereya.html')
+def gall():
+    data = putb()
+    print(data)
+    return render_template('gallereya.html', param=data)
 
 
 @app.route('/katalog/gameplay')
@@ -54,6 +60,7 @@ def kat_2():
 @app.route('/katalog/lavels')
 def Kat_3():
     return render_template('katalog/lavel.html')
+
 
 @app.route('/katalog/lavels/<name>')
 def kat_3(name):
@@ -144,7 +151,27 @@ def kat_3(name):
 
 @app.route('/katalog/secrets')
 def kat_4():
-    return render_template('katalog/secrets.html')
+    keys = ['Хранилище', 'Хранилище секретов', 'Комната времени', 'Подвал']
+    info = {
+        'Хранилище': [
+            'Хранилище (англ. The Vault) — это секретная часть игры, в которую можно попасть через меню опций при нажатии на замок в верхнем правом углу. Чтобы попасть внутрь, требуется собрать 10 пользовательских монет. При входе в Хранилище игрок может вводить слова в текстовое окно и нажимать на кнопку в виде Чёрного Демона на замке для разблокировки новых иконок, следа, а также получения секретной монеты.',
+            '../../static/img/secrets/valuit/Cube62.png'
+        ],
+        'Хранилище секретов': [
+            'Хранилище секретов (англ. Vault of Secrets) — второе хранилище, которое присутствует в Geometry Dash World и в Geometry Dash после обновления 2.1. Его можно найти, нажав на кнопку "Create" в правом верхнем углу и открывается за 50 алмазов. Всё так же, как и в хранилище, но фон фиолетовый, и вместо Жуткого (англ. Spooky) хранилище охраняет Ключник (англ. Keymaster). Отсюда можно попасть в Подвал, пройдя уровень The Challenge.',
+            '../../static/img/secrets/Vault of Secrets/DialogIcon_002-hd.png'
+        ],
+        'Комната времени': [
+            'Комната времени (англ. Chamber of Time) — третье и последнее на данный момент хранилище, которое присутствует в Geometry Dash после обновления 2.1. Сторожа этой комнаты зовут Gatekeeper, он выглядит как голова льва со светящимися оранжевыми глазами, маленькими рожками и золотым кольцом во рту. Фон этой комнаты оранжевый. Здесь можно получить оранжевый ключ, который хранится в сундуке в углу.\nЧтобы открыть Комнату времени, нужно в подвале нажать на оранжевый замок. Заключённый скажет, что для получения ключа нужно искать его в конце мира.\nКонец мира — Coming Soon. Попав туда, нужно нажать под надписью coming soon, и появится дверь.\nДля захода внутрь нужно достать Эмблему Мастера. Находится она в Секретном магазине, где продаётся за 1000 Orbs.\nКупив Эмблему, вы сможете зайти в Комнату времени.',
+            '../../static/img/secrets/Chamber of Time/Gatekeeper2.png'
+        ],
+        'Подвал': [
+            'Подвал (англ. The Basement) — место, в котором заточён таинственный Заключённый. Находится в Хранилище секретов.\nВ подвале находится клетка с Заключённым. Единственный источник освещения — факел, находящийся слева от клетки. Справа — замки от клетки, чтобы открыть её. Снизу мы можем заметить череп и длинную цепь.',
+            '../../static/img/secrets/The Basement/The_Basement.png'
+        ]
+    }
+    data = choice(keys)
+    return render_template('katalog/secrets.html', param=info[data], p=data)
 
 
 @app.route('/help', methods=['post', 'get'])
@@ -156,22 +183,6 @@ def help():
     if username != '' and problems != '':
         send_telegram(f'{username}:\n{problems}')
     return render_template('help.html')
-
-
-def send_telegram(text: str):
-    token = "5355947422:AAFKHVaJSOFpUtxlJ8miz1kXLeYpoJ7PgjE"
-    url = "https://api.telegram.org/bot"
-    channel_id = "@Geometry_help"
-    url += token
-    method = url + "/sendMessage"
-    if text not in t_data:
-        r = requests.post(method, data={
-             "chat_id": channel_id,
-             "text": text
-              })
-        t_data.append(text)
-        if r.status_code != 200:
-            raise Exception("post_text error")
 
 
 if __name__ == '__main__':

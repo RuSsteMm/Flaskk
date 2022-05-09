@@ -1,5 +1,5 @@
 body {
-	background: #AFDAFC;
+  background-color: #b2b2b2;
 }
 .a1 {
 	margin-top: 1.5em
@@ -12,16 +12,6 @@ body {
     float: left
    }
 .text {
-    margin-left: 20%;
+    margin-left: 21.5%;
     margin-right: 5%
-}
-
-form.login_form {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 450px;
-    background-color: #ffcc00;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 10px;
 }
